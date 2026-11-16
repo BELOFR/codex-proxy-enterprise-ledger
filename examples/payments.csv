@@ -1,0 +1,4 @@
+id,paidDate,supplier,voucher,kind,poolId,currency,paidAmount,allocationBase,startDate,endDate,originalPaymentId,notes
+payment-example-1,2026-10-01,示例供应商,EXAMPLE-001,subscription,pool-example,CNY,720.00,720.00,2026-10-01,2026-11-01,,仅示例数据，先建立对应费用池
+payment-example-2,2026-10-20,示例供应商,EXAMPLE-002,recharge,pool-example,CNY,1000.00,0.00,2026-10-01,2026-11-01,,充值不重复作为本期费用
+payment-example-3,2026-10-25,示例供应商,EXAMPLE-003,refund,pool-example,CNY,-60.00,-60.00,2026-10-01,2026-11-01,payment-example-1,关联原付款的当期退款

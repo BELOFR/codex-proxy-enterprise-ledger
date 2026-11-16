@@ -1,0 +1,24 @@
+{
+  "manifestVersion": 2,
+  "name": "enterprise-ledger",
+  "publisher": "belofr",
+  "displayName": "企业用量与费用台账",
+  "version": "0.1.0",
+  "description": "按人员、部门和项目统计用量，登记实际支出并分摊导出 Excel",
+  "license": "Apache-2.0",
+  "engines": {"codex-proxy-rs": ">=3.49.0, <4.0.0"},
+  "main": "bin/enterprise-ledger",
+  "runtime": "trustedProcess",
+  "contributes": {"management": {"version": 2}},
+  "configurationSchema": {"type": "object", "properties": {}, "additionalProperties": false},
+  "resources": {"web/index.html": "text/html", "web/app.js": "text/javascript", "web/app.css": "text/css"},
+  "state": [{
+    "namespace": "ledger",
+    "schemaVersion": 1,
+    "schema": {"type": "object", "required": ["encoding", "payload"], "properties": {"encoding": {"const": "gzip-base64"}, "payload": {"type": "string"}}, "additionalProperties": false},
+    "maximumRecords": 1,
+    "maximumBytes": 262144,
+    "maximumValueBytes": 262144,
+    "migratesFrom": []
+  }]
+}

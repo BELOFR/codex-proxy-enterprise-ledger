@@ -1,0 +1,4 @@
+autoInstallPeers: false
+allowBuilds:
+  '@codex-proxy/ui@git+https://github.com/zyycn/codex-proxy-ui.git': true
+  '@codex-proxy/ui@https://codeload.github.com/zyycn/codex-proxy-ui/tar.gz/d6100447010715c1203e67a4195fc6d875ff6249': true
