@@ -29,9 +29,9 @@ ldd --version
 
 | 文件 | 用途 |
 | --- | --- |
-| `belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz` | **上传到网关的插件安装包** |
+| `belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz` | **上传到网关的插件安装包** |
 | 同名 `.tar.gz.sha256` | 安装包完整性校验 |
-| `enterprise-ledger-0.2.0-source.zip` 及 `.sha256` | 开发源码，不用于安装 |
+| `enterprise-ledger-0.2.1-source.zip` 及 `.sha256` | 开发源码，不用于安装 |
 | GitHub 自动生成的 `Source code (zip / tar.gz)` | Git 源码快照，不用于安装 |
 
 不要解压安装包，不要改名成 ZIP，也不要将源码压缩包上传到插件管理。
@@ -41,9 +41,9 @@ ldd --version
 Linux / macOS 在两个文件所在目录运行：
 
 ```bash
-sha256sum -c belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz.sha256
+sha256sum -c belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz.sha256
 # macOS 没有 sha256sum 时：
-shasum -a 256 belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz
+shasum -a 256 belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz
 ```
 
 `sha256sum -c` 应返回 `OK`。使用 `shasum` 时，将输出与 `.sha256` 的第一段64位摘要比较。
@@ -51,8 +51,8 @@ shasum -a 256 belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz
 Windows PowerShell：
 
 ```powershell
-Get-FileHash .\belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz -Algorithm SHA256
-Get-Content .\belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz.sha256
+Get-FileHash .\belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz -Algorithm SHA256
+Get-Content .\belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz.sha256
 ```
 
 两处摘要应相同，不区分大小写。不同则重新下载，不要继续安装。
@@ -63,10 +63,10 @@ Get-Content .\belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz.sha
 2. 打开侧边栏中的「插件管理」，选择「安装插件」。
 3. 安装方式选择「上传包」，浏览并选中下载的 `.tar.gz`。浏览器在 Windows 上也可以上传 Linux 包；运行平台由服务器决定。
 4. 点击包校验／检查操作，等宿主完成解析。实际按钮文案可能随宿主语言和版本略有不同。
-5. 查看检查结果，确认发布者 `belofr`、插件 ID `belofr.enterprise-ledger`、版本 `0.2.0`、目标平台 Linux x64，以及你下载的来源。
+5. 查看检查结果，确认发布者 `belofr`、插件 ID `belofr.enterprise-ledger`、版本 `0.2.1`、目标平台 Linux x64，以及你下载的来源。
 6. 阅读宿主的完整信任说明，再确认安装。原生插件进程以宿主的操作系统身份运行，因此应只安装你确认可信的源码和包。
 7. 安装完成后在插件详情检查状态。默认配置为空对象，台账信息在插件内部配置；如果宿主未自动启用，请在插件管理中启用。
-8. 从该插件的管理页面入口打开「企业用量与费用台账」。看到带书本图标的侧边导航后，使用右上角「中文 / EN」选择语言。
+8. 从该插件的管理页面入口打开「企业用量与费用台账」。看到顶部横向功能标签后，使用右上角「中文 / EN」选择语言。
 
 你也可能看到宿主提供「GitHub」或「下载地址」安装方式；本指南采用可手动核对包和摘要的上传方式。宿主版本发生变化时，以当前页面校验结果为准。
 
@@ -83,7 +83,7 @@ Get-Content .\belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz.sha
 3. 在宿主中为已安装插件选择安装新版本／更新，核对版本与信任结果。通常不需要先卸载。
 4. 更新完成后，检查人员归属、付款、预算及月结列表，重新生成一次统计。
 
-`0.2.0` 沿用 `0.1.0` 的插件 ID 与状态格式，界面语言不会改写财务数据。宿主自身的备份、卸载和数据删除行为仍以其实现为准；不要把卸载当成常规升级步骤。
+`0.2.1` 沿用 `0.1.0` 的插件 ID 与状态格式，界面语言不会改写财务数据。宿主自身的备份、卸载和数据删除行为仍以其实现为准；不要把卸载当成常规升级步骤。
 
 ## 常见问题
 

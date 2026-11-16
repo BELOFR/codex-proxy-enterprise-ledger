@@ -1,13 +1,13 @@
 # 验证记录
 
-日期：2026-11-16。版本：0.2.0。发布者：BELOFR。未部署至实际网关。
+日期：2026-11-16。版本：0.2.1。发布者：BELOFR。未部署至实际网关。
 
 ## 实际完成的检查
 
 | 项目 | 结果及覆盖 |
 | --- | --- |
-| Windows Rust | 本版格式检查和严格 Clippy通过；Windows 测试子程序执行被本机拒绝访问，未将该次测试计为通过。核心测试在 Linux 中完成 |
-| Linux Rust | Docker `rust:1.99.1-bookworm` 中全部13项领域测试通过，release 构建通过 |
+| Windows Rust | 0.2.0基线格式检查和严格 Clippy通过；该次 Windows 测试子程序执行被本机拒绝访问。0.2.1只调整界面与版本，本次不重复运行 Windows 检查 |
+| Linux Rust | Docker `rust:1.99.1-bookworm` 中构建0.2.1 release；13项领域测试沿用0.2.0通过结果，本次未修改财务计算或状态格式 |
 | 前端 | pnpm 11.25.0 冻结锁文件安装、ESLint、vue-tsc 和 Vite 生产构建通过 |
 | Linux 实际进程 | 在 Docker 启动真实 ELF，通过公开协议 v7 与模拟宿主通信，完成管理注册、状态读取与 CAS 写入 |
 | 完整性与导出 | 1500条虚构请求跨1024条批次扫描；页面返回100条预览，Excel 包含最后一条请求；扫描中途超时返回失败 |
@@ -18,6 +18,8 @@
 | 安装包 | 使用固定提交的官方 CLI 打包；SHA-256、清单 v2、协议 v7、Linux x86_64 平台、每个资源的摘要及 ELF 可执行权限核对通过 |
 
 领域测试还覆盖统计资格排除、各维度汇总对账、已知零与未知值区分、归属期间重叠拒绝、扫描重复与越界拒绝、Excel 文本公式注入防护及完整明细。
+
+0.2.1按嵌入式页面重新验收：插件内没有侧栏，使用顶部功能标签，内容占满 iframe 可用宽度。截图外围加入明确标记的模拟宿主侧栏和标题，用于检查组合布局；该模拟壳不代表已登录或部署到用户实际网关。复核中英文导航、表单保留、查询与下载、深浅色和480px布局。
 
 浏览器验收修复了沙箱不允许原生表单提交的问题，查询和保存按钮通过点击事件调用管理接口。浏览器下载使用本地 HTTP 回调票据模拟宿主桥，实际报表由插件生成。测试数据均为虚构记录，没有读取公司账目或发起模型请求。
 
@@ -41,7 +43,7 @@
 
 ```powershell
 # 已打包后的完整性检查，仅需 Python 标准库
-python scripts/verify-package.py dist/belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz
+python scripts/verify-package.py dist/belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz
 
 # Docker 已运行且有对应镜像、backend/target-linux/release 二进制时
 python scripts/protocol_check.py --docker

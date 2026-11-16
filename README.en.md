@@ -12,9 +12,11 @@ A **native Codex Proxy RS plugin** for finance teams, business owners and manage
 
 ## See the workspace
 
+Version 0.2.1 uses horizontal tabs and the host's available content width. The plugin has no second sidebar or oversized page header; colors and backgrounds follow the host theme.
+
 ![English dashboard with request distribution and ownership breakdown](docs/assets/dashboard-en.png)
 
-> Screenshots show the actual compiled plugin with clearly labelled fictional fixtures. Switch Chinese and English at the top right. Light/dark host themes and narrow screens are supported. Language changes preserve report data and draft inputs. Excel retains its seven Chinese worksheets.
+> Screenshots show the actual compiled plugin inside an explicitly labelled simulated host shell, with fictional data. Horizontal tabs share the host content area without a second sidebar. Switch Chinese and English at the top right. Light/dark host themes and narrow screens are supported. Language changes preserve report data and draft inputs. Excel retains its seven Chinese worksheets.
 
 ## What it does
 
@@ -35,7 +37,7 @@ Access uses the **host administrator account**. Separate finance/manager logins 
 
 **Requirements:** Codex Proxy RS `>=3.49.0, <4.0.0`; Linux x86_64; glibc `>=2.34` and `libgcc_s`. Built and executed on Debian 12. This binary does not support Alpine/musl, Windows or ARM64.
 
-1. From [Releases](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest), download `belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz` and its `.sha256` file.
+1. From [Releases](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest), download `belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz` and its `.sha256` file.
 2. Verify SHA-256. Keep the package compressed; no browser extension is needed.
 3. Sign in as a gateway administrator. Open **Plugin management → Install plugin → Upload package**, then select the `.tar.gz`.
 4. Validate the package. Check `belofr.enterprise-ledger`, version, Linux x64 target and source; review the trust statement and confirm installation.

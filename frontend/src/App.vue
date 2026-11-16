@@ -238,29 +238,13 @@ onMounted(() => {
 <template>
   <ZConfigProvider :locale="language === 'zh-CN' ? zhHans : en">
     <div class="ledger-shell">
-      <aside class="ledger-sidebar">
-        <div class="ledger-brand">
-          <span class="brand-mark"><AppIcon :size="28" /></span><div><strong>Enterprise Ledger</strong><small>BY BELOFR</small></div>
-        </div>
-        <div class="nav-caption">
-          {{ tr('企业用量与费用台账', 'USAGE & COST WORKSPACE') }}
-        </div>
-        <nav class="ledger-nav" :aria-label="tr('台账功能', 'Ledger navigation')">
-          <button v-for="item in tabs" :key="item.key" type="button" :class="{ active: tab === item.key }" :aria-current="tab === item.key ? 'page' : undefined" @click="tab = item.key">
-            <AppIcon :name="item.icon" :size="18" /><span>{{ item.label }}</span><span v-if="tab === item.key" class="nav-dot" />
-          </button>
-        </nav>
-        <div class="sidebar-note">
-          <AppIcon name="shield" :size="22" /><p>{{ tr('有据可查，按期归档。', 'Traceable records. Preserved periods.') }}</p><span>v0.2.0 · Apache-2.0</span>
-        </div>
-      </aside>
       <main class="ledger-content">
         <header class="ledger-header">
-          <div>
-            <div class="eyebrow">
-              {{ tr('企业台账', 'ENTERPRISE LEDGER') }} <span>/</span> {{ tr('工作空间', 'WORKSPACE') }}
-            </div><h1>{{ activeTitle }}</h1><p>{{ descriptions[tab] }}</p>
-          </div>
+          <nav class="ledger-nav" :aria-label="tr('台账功能', 'Ledger navigation')">
+            <button v-for="item in tabs" :key="item.key" type="button" :class="{ active: tab === item.key }" :aria-current="tab === item.key ? 'page' : undefined" @click="tab = item.key">
+              <AppIcon :name="item.icon" :size="16" /><span>{{ item.label }}</span>
+            </button>
+          </nav>
           <div class="header-actions">
             <div class="language-switch" role="group" aria-label="Language / 语言">
               <AppIcon name="globe" :size="16" /><button type="button" :aria-pressed="language === 'zh-CN'" @click="setLanguage('zh-CN')">
@@ -273,6 +257,12 @@ onMounted(() => {
             </ZButton>
           </div>
         </header>
+        <h1 class="section-title">
+          {{ activeTitle }}
+        </h1>
+        <p v-if="tab !== 'report'" class="section-description">
+          {{ descriptions[tab] }}
+        </p>
         <div v-if="error" class="ledger-alert error" role="alert">
           {{ message(error) }}
         </div>
@@ -384,9 +374,7 @@ onMounted(() => {
             </ZCard>
           </template>
           <section v-else class="ledger-panel welcome-panel">
-            <div class="welcome-art">
-              <AppIcon :size="54" />
-            </div><div><span class="eyebrow">{{ tr('从这里开始', 'A CLEARER VIEW STARTS HERE') }}</span><h2>{{ tr('第一份企业台账，从清晰的归属开始。', 'Give every request a place in your ledger.') }}</h2><p>{{ tr('先关联员工、建立费用池并登记付款，再选择日期查询。只有用量数据时，也可以直接生成统计。', 'Assign people, create cost pools and record payments, then query a period. You can also report usage before recording any payments.') }}</p></div><div class="setup-links">
+            <div><span class="eyebrow">{{ tr('从这里开始', 'A CLEARER VIEW STARTS HERE') }}</span><h2>{{ tr('先完成基础配置，再开始核对。', 'Set up ownership and costs, then start reviewing.') }}</h2><p>{{ tr('先关联员工、建立费用池并登记付款，再选择日期查询。只有用量数据时，也可以直接生成统计。', 'Assign people, create cost pools and record payments, then query a period. You can also report usage before recording any payments.') }}</p></div><div class="setup-links">
               <button v-for="(step, i) in steps.slice(0, 3)" :key="step.tab" type="button" @click="tab = step.tab">
                 <span>{{ step.done ? '✓' : `0${i + 1}` }}</span>{{ step.title }}<AppIcon name="arrow" :size="16" />
               </button>
@@ -464,7 +452,7 @@ onMounted(() => {
           </ZCard>
         </template>
         <footer class="ledger-footer">
-          <span>BELOFR / Enterprise Ledger</span><span>{{ tr('用量 · 费用 · 归档', 'USAGE · COSTS · ARCHIVES') }}</span>
+          <span>BELOFR / Enterprise Ledger · v0.2.1</span><span>{{ tr('用量 · 费用 · 归档', 'USAGE · COSTS · ARCHIVES') }}</span>
         </footer>
         <ZDialog v-model="deleteDialog" :title="tr('移除月结归档', 'Remove period archive')" :description="tr('请先导出并另行保存 Excel，移除后无法恢复该版本，付款和当前配置仍会保留', 'Export and keep the Excel file first. This archive cannot be restored after removal; payments and the current configuration remain.')">
           <template #footer>

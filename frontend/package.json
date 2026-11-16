@@ -1,7 +1,7 @@
 {
   "name": "@belofr/enterprise-ledger-frontend",
   "type": "module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "packageManager": "pnpm@11.25.0",
   "engines": {

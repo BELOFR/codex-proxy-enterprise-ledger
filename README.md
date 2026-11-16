@@ -12,9 +12,11 @@
 
 ## 界面预览
 
+v0.2.1 使用顶部功能标签，插件不再重复绘制侧栏和大标题，内容占满宿主可用区域，背景与配色跟随宿主主题。
+
 ![中文统计总览：指标、用量分布与归属明细](docs/assets/dashboard-zh.png)
 
-> 截图来自真实编译的插件页面，使用明确标记的虚构测试数据。右上角可切换中文／English，支持深浅色主题和窄屏。切换语言保留当前报表及表单输入；Excel 仍为七张中文工作表。
+> 截图来自真实编译的插件页面，外围为明确标记的模拟宿主导航，用于检查嵌入后的布局；数据均为虚构。右上角可切换中文／English，支持深浅色主题和窄屏。切换语言保留当前报表及表单输入；Excel 仍为七张中文工作表。
 
 <details><summary>查看英文界面、深色主题和使用指南</summary>
 
@@ -43,7 +45,7 @@
 
 **运行要求：** Codex Proxy RS `>=3.49.0, <4.0.0`；Linux x86_64；glibc `>=2.34`，需 `libgcc_s`。Debian 12 下构建及运行验证通过。Alpine/musl、Windows、ARM64 不能使用这个安装包。
 
-1. 打开 [Releases](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest)，下载 `belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz` 和旁边的 `.sha256`。
+1. 打开 [Releases](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest)，下载 `belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz` 和旁边的 `.sha256`。
 2. 核对 SHA-256。包保持压缩状态，不需要解压，也不需要安装浏览器扩展。
 3. 用管理员账号打开网关，进入**插件管理 → 安装插件 → 上传包**，选择上述 `.tar.gz`。
 4. 先校验安装包，核对插件 ID `belofr.enterprise-ledger`、版本、Linux x64 平台及来源，阅读信任说明后确认安装。

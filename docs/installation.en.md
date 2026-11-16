@@ -29,9 +29,9 @@ Open [the latest Release](https://github.com/BELOFR/codex-proxy-enterprise-ledge
 
 | Asset | Purpose |
 | --- | --- |
-| `belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz` | **Installable native plugin** |
+| `belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz` | **Installable native plugin** |
 | Matching `.tar.gz.sha256` | Package checksum |
-| `enterprise-ledger-0.2.0-source.zip` and its checksum | Development source |
+| `enterprise-ledger-0.2.1-source.zip` and its checksum | Development source |
 | Automatic GitHub `Source code` downloads | Git source snapshots |
 
 Keep the plugin archive compressed. Source archives cannot be uploaded as plugin packages.
@@ -41,14 +41,14 @@ Keep the plugin archive compressed. Source archives cannot be uploaded as plugin
 Linux:
 
 ```bash
-sha256sum -c belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz.sha256
+sha256sum -c belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz.sha256
 ```
 
 Expect `OK`. On macOS use `shasum -a 256 <package.tar.gz>` and compare its digest with the `.sha256` file. On Windows:
 
 ```powershell
-Get-FileHash .\belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz -Algorithm SHA256
-Get-Content .\belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz.sha256
+Get-FileHash .\belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz -Algorithm SHA256
+Get-Content .\belofr.enterprise-ledger-0.2.1-x86_64-unknown-linux-gnu.tar.gz.sha256
 ```
 
 Digests must match, ignoring letter case. Redownload if they differ.
@@ -59,7 +59,7 @@ Digests must match, ignoring letter case. Redownload if they differ.
 2. Open **Plugin management → Install plugin**.
 3. Select **Upload package** and choose the `.tar.gz`. A Windows browser can upload a Linux package; compatibility depends on the gateway server.
 4. Run the package check/validation action. Exact wording can vary with host language and version.
-5. Review publisher `belofr`, ID `belofr.enterprise-ledger`, version `0.2.0`, Linux x64 target and source.
+5. Review publisher `belofr`, ID `belofr.enterprise-ledger`, version `0.2.1`, Linux x64 target and source.
 6. Read the host’s full-trust notice, then confirm installation. Native plugin processes run with the host OS identity, so install packages whose source you trust.
 7. Check the plugin’s status and enable it if the host did not do so automatically. The host-level configuration is an empty object; financial configuration lives inside the ledger.
 8. Open its management page. The host may show the Chinese title “企业用量与费用台账”. Use **中文 / EN** at the top right of the plugin page.
@@ -79,7 +79,7 @@ You can query a recent day before adding configuration. Requests without ownersh
 3. Choose the installed plugin’s update/install-new-version flow in the host. Do not routinely uninstall before upgrading.
 4. Review the version/trust results, then check ownership, payments, budgets and archives after the update.
 
-Version 0.2.0 keeps the 0.1.0 plugin ID and state schema. Display-language changes do not modify accounting data. Host backup, uninstall and state-removal behavior remains host-controlled.
+Version 0.2.1 keeps the 0.1.0 plugin ID and state schema. Display-language changes do not modify accounting data. Host backup, uninstall and state-removal behavior remains host-controlled.
 
 ## Troubleshooting
 

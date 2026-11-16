@@ -3,7 +3,7 @@
   "name": "enterprise-ledger",
   "publisher": "belofr",
   "displayName": "企业用量与费用台账",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "icon": "web/icon.svg",
   "description": "按人员、部门和项目统计用量，登记实际支出并分摊导出 Excel",
   "license": "Apache-2.0",
