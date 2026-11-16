@@ -139,7 +139,7 @@ async fn route(runtime: &Runtime, call: TypedCall<ManagementRequest>) -> ApiResu
             let (version, state) = host::load(&call.host).await.map_err(ApiError::host)?;
             let closed=state.closed_reports.iter().map(|r|value!({"id":r.id,"label":r.label,"reason":r.reason,"closedAtMs":r.closed_at_ms,"query":r.report.query,"records":r.report.records.len()})).collect::<Vec<_>>();
             json(
-                &value!({"version":version,"settings":state.settings,"closedReports":closed,"pluginVersion":"0.1.0","maximumRecords":MAX_RECORDS}),
+                &value!({"version":version,"settings":state.settings,"closedReports":closed,"pluginVersion":env!("CARGO_PKG_VERSION"),"maximumRecords":MAX_RECORDS}),
             )
         }
         ("GET", "api/keys") => json(&host::keys(&call.host).await.map_err(ApiError::host)?),

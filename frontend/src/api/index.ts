@@ -1,3 +1,5 @@
+import { language, tr } from '../i18n'
+
 export interface HostBridge {
   request: (input: { method: string, path: string, contentType?: string, body?: string }) => Promise<{ status: number, contentType: string, body: ArrayBuffer }>
   callbackTicket: (input: { path: string, ttlSeconds: number }) => Promise<{ callbackUrl: string }>
@@ -37,7 +39,7 @@ export interface Report {
 
 export function host(): HostBridge {
   if (!window.codexProxyPlugin)
-    throw new Error('请从 Codex Proxy 的插件管理页面打开台账')
+    throw new Error(tr('请从 Codex Proxy 的插件管理页面打开台账', 'Open this ledger from the Codex Proxy plugin page.'))
   return window.codexProxyPlugin
 }
 
@@ -48,25 +50,25 @@ export async function request<T>(path: string, data?: unknown): Promise<T> {
     ...(data === undefined ? {} : { contentType: 'application/json', body: JSON.stringify(data) }),
   })
   if (result.contentType.split(';')[0]?.trim() !== 'application/json')
-    throw new Error('插件返回了不支持的内容类型')
+    throw new Error(tr('插件返回了不支持的内容类型', 'The plugin returned an unsupported content type.'))
   let value: unknown
   try {
     value = JSON.parse(new TextDecoder().decode(result.body))
   }
-  catch { throw new Error('插件返回的数据无法解析') }
+  catch { throw new Error(tr('插件返回的数据无法解析', 'The plugin response could not be parsed.')) }
   if (result.status < 200 || result.status >= 300) {
     const error = value as { error?: { message?: string } }
-    throw new Error(error.error?.message || `操作失败（HTTP ${result.status}）`)
+    throw new Error(error.error?.message || `HTTP ${result.status}`)
   }
   return value as T
 }
 
 export function money(values: Money[]): string {
-  return values.map(v => `${v.amount} ${v.currency}`).join(' / ') || '未登记'
+  return values.map(v => `${v.amount} ${v.currency}`).join(' / ') || tr('未登记', 'Not recorded')
 }
 export function count(value: string | number): string {
   try {
-    return BigInt(value).toLocaleString('zh-CN')
+    return BigInt(value).toLocaleString(language.value === 'zh-CN' ? 'zh-CN' : 'en-US')
   }
   catch { return String(value) }
 }

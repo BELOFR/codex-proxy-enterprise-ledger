@@ -1,17 +1,19 @@
 """生成源码 ZIP，按允许的目录收集，排除工具、缓存、依赖、构建输出与仓库元数据。"""
 import hashlib
+import json
 import os
 import pathlib
 import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 EXCLUDED = {".git", ".tools", ".runtime", "target", "target-linux", "node_modules", "dist", "__pycache__"}
-FILES = [".gitattributes", ".gitignore", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "plugin.json"]
+FILES = [".gitattributes", ".gitignore", "LICENSE", "THIRD_PARTY_NOTICES.md", "README.md", "README.en.md", "plugin.json"]
 DIRECTORIES = ["backend", "frontend", "scripts", "docs", "examples"]
 
 
 def main():
-    output = ROOT / "dist" / "enterprise-ledger-0.1.0-source.zip"
+    version = json.loads((ROOT / "plugin.json").read_text(encoding="utf-8"))["version"]
+    output = ROOT / "dist" / f"enterprise-ledger-{version}-source.zip"
     output.parent.mkdir(parents=True, exist_ok=True)
     selected = [ROOT / name for name in FILES]
     for directory in DIRECTORIES:

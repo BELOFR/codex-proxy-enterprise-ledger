@@ -1,20 +1,20 @@
 # 验证记录
 
-日期：2026-11-16。版本：0.1.0。发布者：BELOFR。未部署至实际网关。
+日期：2026-11-16。版本：0.2.0。发布者：BELOFR。未部署至实际网关。
 
 ## 实际完成的检查
 
 | 项目 | 结果及覆盖 |
 | --- | --- |
-| Windows Rust | 格式检查、严格 Clippy（告警视为错误）、全部13项领域测试、原生进程构建通过 |
+| Windows Rust | 本版格式检查和严格 Clippy通过；Windows 测试子程序执行被本机拒绝访问，未将该次测试计为通过。核心测试在 Linux 中完成 |
 | Linux Rust | Docker `rust:1.99.1-bookworm` 中全部13项领域测试通过，release 构建通过 |
 | 前端 | pnpm 11.25.0 冻结锁文件安装、ESLint、vue-tsc 和 Vite 生产构建通过 |
 | Linux 实际进程 | 在 Docker 启动真实 ELF，通过公开协议 v7 与模拟宿主通信，完成管理注册、状态读取与 CAS 写入 |
 | 完整性与导出 | 1500条虚构请求跨1024条批次扫描；页面返回100条预览，Excel 包含最后一条请求；扫描中途超时返回失败 |
 | 财务行为 | 重复凭证、充值零费用基数、退款、多币种、缺失权重、极小金额尾差、预算余额及零预算使用率通过领域测试 |
 | 状态与月结 | 过期版本返回409；重新打开月结不扫描；CSV 导入成功，重复导入拒绝且版本不变；删除测试归档后付款和配置保留 |
-| 浏览器 | Edge 无头浏览器，真实编译前端、真实 Windows 插件进程、仅允许脚本的 iframe 沙箱；浅色／深色及480px宽度，无页面横向溢出、无页面异常 |
-| 浏览器操作 | 查询、真实 XLSX 下载、表单错误展示、配置保存、历史归属冻结、归档取消与确认移除通过 |
+| 浏览器 | Edge 无头浏览器，真实编译前端、Docker 中的真实 Linux 插件进程、仅允许脚本的 iframe 沙箱；中英文、浅色／深色及480px宽度，无页面横向溢出、无页面异常 |
+| 浏览器操作 | 全部功能导航、查询、真实 XLSX 下载、英文校验提示、配置保存、切换语言保留表单与报表、历史归属冻结、归档取消与确认移除通过 |
 | 安装包 | 使用固定提交的官方 CLI 打包；SHA-256、清单 v2、协议 v7、Linux x86_64 平台、每个资源的摘要及 ELF 可执行权限核对通过 |
 
 领域测试还覆盖统计资格排除、各维度汇总对账、已知零与未知值区分、归属期间重叠拒绝、扫描重复与越界拒绝、Excel 文本公式注入防护及完整明细。
@@ -41,7 +41,7 @@
 
 ```powershell
 # 已打包后的完整性检查，仅需 Python 标准库
-python scripts/verify-package.py dist/belofr.enterprise-ledger-0.1.0-x86_64-unknown-linux-gnu.tar.gz
+python scripts/verify-package.py dist/belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz
 
 # Docker 已运行且有对应镜像、backend/target-linux/release 二进制时
 python scripts/protocol_check.py --docker

@@ -77,19 +77,24 @@ fn registration() -> ManagementRegistration {
             post("api/delete-close"),
             post("api/import-payments"),
         ],
-        resources: ["web/index.html", "web/app.js", "web/app.css"]
-            .into_iter()
-            .map(|path| ManagementResource {
-                path: path.into(),
-                public: false,
-            })
-            .collect(),
+        resources: [
+            "web/index.html",
+            "web/app.js",
+            "web/app.css",
+            "web/icon.svg",
+        ]
+        .into_iter()
+        .map(|path| ManagementResource {
+            path: path.into(),
+            public: false,
+        })
+        .collect(),
         pages: vec![ManagementPage {
             id: "ledger".into(),
             title: "企业用量与费用台账".into(),
             description: Some("统计用量、核对支出与分摊，导出 Excel".into()),
             entry: "web/index.html".into(),
-            icon: None,
+            icon: Some("web/icon.svg".into()),
         }],
         callbacks: vec![ManagementCallback {
             path: "download".into(),

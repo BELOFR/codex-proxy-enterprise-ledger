@@ -1,120 +1,116 @@
-# 企业用量与费用台账
+<p align="center"><img src="docs/assets/icon.svg" width="80" alt="Enterprise Ledger 图标"></p>
+<h1 align="center">Enterprise Ledger · 企业用量与费用台账</h1>
+<p align="center">把每一次 AI 调用，变成看得清、可核对、能归档的企业账。</p>
+<p align="center"><strong>简体中文</strong> · <a href="README.en.md">English</a></p>
+<p align="center"><a href="https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases"><img alt="最新版本" src="https://img.shields.io/github/v/release/BELOFR/codex-proxy-enterprise-ledger?color=087e73"></a> <a href="LICENSE"><img alt="Apache-2.0 许可证" src="https://img.shields.io/badge/license-Apache--2.0-112a31"></a> <img alt="Linux x64" src="https://img.shields.io/badge/platform-Linux_x64-087e73"> <img alt="中英文界面" src="https://img.shields.io/badge/UI-中文_%2F_English-112a31"></p>
 
-Codex Proxy RS 原生插件，面向财务、业务负责人和管理者，提供人员、部门、项目及模型用量，实际支出登记、费用分摊、预算对比、月结及 Excel 导出
+![Enterprise Ledger 项目展示](docs/assets/banner.svg)
 
-[下载安装包](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest) · [提交问题](https://github.com/BELOFR/codex-proxy-enterprise-ledger/issues) · [验证记录](docs/verification.md)
+**Codex Proxy RS 原生插件**，为财务、业务负责人和管理者整理 AI 用量与费用：按人员、部门、项目、模型统计，登记真实付款，分摊共享成本，比较预算，导出 Excel 并保留月结快照。
 
-## 安装
+**[下载最新安装包](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest)** · **[安装与升级](docs/installation.zh-CN.md)** · **[完整使用流程](docs/usage.zh-CN.md)** · **[验证记录](docs/verification.md)** · **[反馈问题](https://github.com/BELOFR/codex-proxy-enterprise-ledger/issues)**
 
-- 运行平台：Linux x86_64，glibc >=2.34，需 libgcc_s；构建及运行验证环境为 Debian 12，不适用于 Alpine/musl
-- 目标宿主：Codex Proxy RS `>=3.49.0, <4.0.0`，清单 v2、进程协议 v7、管理能力 v2
-- 插件 ID：`belofr.enterprise-ledger`，版本 `0.1.0`
-- SDK 与官方打包工具固定宿主提交 `0f5bf03e13a43b34c43b9e3a6dee935ad43f6d2b`
+## 界面预览
 
-1. 核对安装包旁 `.sha256` 文件
-2. 在网关「插件管理」选择「上传包」，上传 `belofr.enterprise-ledger-0.1.0-x86_64-unknown-linux-gnu.tar.gz`
-3. 核对插件身份、平台和版本，确认完整信任后安装
-4. 默认配置完整，宿主可自动启用，从插件导航打开「企业用量与费用台账」
+![中文统计总览：指标、用量分布与归属明细](docs/assets/dashboard-zh.png)
 
-插件通过管理员管理入口使用，不提供财务或部门负责人独立账号。实际运行能力与验证覆盖见 [验证记录](docs/verification.md)
+> 截图来自真实编译的插件页面，使用明确标记的虚构测试数据。右上角可切换中文／English，支持深浅色主题和窄屏。切换语言保留当前报表及表单输入；Excel 仍为七张中文工作表。
 
-## 开始记账
+<details><summary>查看英文界面、深色主题和使用指南</summary>
 
-1. 在「人员归属」读取 Key 列表，以稳定 Key ID 关联员工、部门和项目，设置有效期
-2. 在「费用分摊」建立费用池，按账号ID、Key ID及 Provider 共同筛选请求，选择 Token、金额或人工比例
-3. 在「实际支出」登记付款日期、凭证、币种、实付金额和整期分摊基数，归属结束日期不包含在期间内
-4. 在「预算」登记部门或项目的期间预算
-5. 在「统计总览」选择日期，查询统计，生成 Excel，再取得一次性下载链接
-6. 需要保留历史时保存月结，后续通过「月结归档」查看或再次导出
+![English overview](docs/assets/dashboard-en.png)
+![深色主题](docs/assets/dashboard-dark.png)
+![插件内的使用流程](docs/assets/workflow-zh.png)
 
-所有筛选条件留空的非人工费用池匹配全部请求。同一请求匹配多个费用池时拒绝生成报表，请明确账号或 Key 范围。人工池不配置筛选条件时只按人工比例分配支出，不参与请求归池
+</details>
 
-多人共用 Key 且没有可靠人员事实时应登记为未归属。调岗时为同一 Key 建立不重叠的有效期，不用当前部门覆盖历史；月结保存当时的全部归属及规则
+## 能做什么
 
-## 费用口径
-
-| 金额 | 来源与含义 |
+| 功能 | 实际用途 |
 | --- | --- |
-| 上游报告 | 宿主保存的 Provider 报告金额，保留原币种 |
-| 本地估算 | 请求当时保存的估算金额，用于消耗参考或经确认的分摊权重 |
-| 实际付款 | 人工登记或 CSV 导入的现金流，按付款日期汇总 |
-| 期间基数 | 按归属期间分配给所选日期的管理分摊金额 |
-| 已分摊／未分摊 | 期间基数的分配结果，各币种分别满足两者合计等于基数 |
+| 用量总览 | 调用数、完整交付数、已知 Token、费用缺失、部门与模型分布 |
+| 人员与组织归属 | 用稳定 Key ID 关联员工、部门和项目；按生效期间追溯调岗历史 |
+| 实际支出 | 登记订阅、API 结算、充值、退款；支持 UTF-8 CSV 整批校验和去重 |
+| 费用分摊 | 以 Token、金额或人工比例分配成本；异常保留未分摊，逐币种核对 |
+| 预算比较 | 部门／项目预算、余额、使用率，按相同期间和币种比较 |
+| Excel 导出 | 总览、部门人员、项目、分摊、请求明细、实付、归属规则七张表 |
+| 月结归档 | 保存当时的数据、规则和归属；重新打开不重新扫描，调整另存版本 |
+| 中英文展示 | 导航、指标、表格、表单、操作提示、内置流程指南即时切换 |
 
-充值的分摊基数必须为零，消费结算另行登记，避免充值与消费重复记入。退款使用负数，关联同费用池、同币种的原付款，并明确归属期间。跨期付款的基数按日历天均匀分配至查询范围，预算采用相同期间方法
+当前通过**宿主管理员入口**使用和导出，可将报表交给财务或业务同事。暂未提供独立财务／老板账号或部门数据权限隔离，也不会自动获取银行流水或供应商发票。
 
-金额权重要求费用齐全且币种一致，Token 权重要求 Token 齐全。无匹配用量、零分母或权重缺失时保留未分摊，不把异常行剔除后分给其他部门。人工比例使用十进制字符串，合计须为100，例如：
+## 安装：上传这个包
 
-```json
-[{"person":"张三","department":"研发部","project":"审计助手","percent":"60"},{"person":"李四","department":"业务部","project":"售前","percent":"40"}]
-```
+**运行要求：** Codex Proxy RS `>=3.49.0, <4.0.0`；Linux x86_64；glibc `>=2.34`，需 `libgcc_s`。Debian 12 下构建及运行验证通过。Alpine/musl、Windows、ARM64 不能使用这个安装包。
 
-费用使用十进制计算，按最大余数及稳定请求顺序分配最小币种单位，保证小金额不会出现反向分摊。输入已包含缓存 Token，输出已包含推理 Token，不重复加总。未知值保持为空，已知零保留为零
+1. 打开 [Releases](https://github.com/BELOFR/codex-proxy-enterprise-ledger/releases/latest)，下载 `belofr.enterprise-ledger-0.2.0-x86_64-unknown-linux-gnu.tar.gz` 和旁边的 `.sha256`。
+2. 核对 SHA-256。包保持压缩状态，不需要解压，也不需要安装浏览器扩展。
+3. 用管理员账号打开网关，进入**插件管理 → 安装插件 → 上传包**，选择上述 `.tar.gz`。
+4. 先校验安装包，核对插件 ID `belofr.enterprise-ledger`、版本、Linux x64 平台及来源，阅读信任说明后确认安装。
+5. 安装完成后确认插件状态为已启用，从插件的管理页面入口打开**企业用量与费用台账**。
 
-预算余额与使用率以同币种已分摊支出对比期间预算，预算为零时使用率不适用。未分摊费用不混入某个部门的预算，需单独处理
+`Source code (zip)`、`Source code (tar.gz)` 和 `enterprise-ledger-…-source.zip` 都是源码，**不能作为插件包上传**。完整步骤、校验命令、升级方式及故障排查见 [安装指南](docs/installation.zh-CN.md)。
 
-各币种分别展示，不自动换汇。支持付款及预算币种 CNY、USD、EUR、GBP、HKD、JPY，JPY 精度为整数，其他为两位小数。用量金额、现金付款和管理分摊不相加，也不能直接作为官方结算单或会计记账凭证
+## 第一次使用：照这个顺序
 
-## Excel 与下载
+| 步骤 | 去哪里 | 要做什么 |
+| --- | --- | --- |
+| 01 | 人员归属 | 点击「读取 Key 列表」，复制稳定 Key ID，登记员工、部门、项目和生效日期 |
+| 02 | 费用分摊 | 新建费用池，设置匹配条件和分摊依据；避免同一请求匹配多个池 |
+| 03 | 实际支出 | 选择费用池，登记实付金额、币种、付款日、分摊基数和归属期间 |
+| 04 | 预算（可选） | 输入与归属完全一致的部门／项目名、同币种预算与期间 |
+| 05 | 统计总览 | 选择日期并查询，核对未归属、未知费用与未分摊 |
+| 06 | 生成 Excel | 点击「生成 Excel → 取得下载链接 → 打开下载」；HTTP 环境复制地址到新标签页 |
+| 07 | 保存月结版本 | 填写名称，保存快照；后续到「月结归档」查看和再次导出 |
 
-导出七张表：统计总览、部门人员、项目汇总、费用分摊、请求明细、实际支出、归属与规则，模型统计在总览中展示
+**日期容易填错：** 查询结束日期**包含当天**；归属、付款期间和预算结束日期**不包含当天**。例如查询十月填 `2026-10-01 ～ 2026-10-31`，十月费用归属填 `2026-10-01 ～ 2026-11-01`。
 
-页面仅预览前100条，Excel 包含该次完整扫描的全部请求。请求ID及费用来源均保留，超出 Excel 可靠数字精度的值以文本写入。用户文本使用字符串单元格，`=` 等开头的名称不会成为公式
+完整教程含一笔 `720.00 CNY` 的订阅费示例、人工比例、退款、CSV 模板、预算与月结说明：[阅读使用指南](docs/usage.zh-CN.md)。只有用量、还没登记付款时，也可以直接查询用量统计。
 
-Excel 和统计共用同一个请求快照，点击导出不会重新扫描。一次性文件保留10分钟，下载票据有效两分钟，文件成功交付一次后删除。服务或插件重启会清除未下载的临时文件，重新查询或打开月结后可再次生成
+## 费用怎么理解
 
-HTTPS 部署可在取得链接后点击「打开下载」，宿主会显示链接确认。HTTP 部署需复制一次性地址，在浏览器新标签页打开。链接持有者在有效期内可下载对应报表，请按财务文件保管
+| 数字 | 含义 |
+| --- | --- |
+| 上游报告／本地估算 | 请求当时由宿主保存的用量金额，保留原币种和来源 |
+| 实际付款 | 手工或 CSV 登记的现金流，按付款日期统计 |
+| 期间分摊基数 | 经确认归属当前期间的管理成本，跨期金额按日历天分配 |
+| 已分摊 + 未分摊 | 两者按币种分别加总，等于本期分摊基数 |
 
-## 付款 CSV
+不同币种不相加，不自动换汇。充值的费用分摊基数必须为零，消费结算另记，避免重复计费；退款填负数并关联原付款。缺费用、缺 Token 或零分母时保留未分摊。具体定义、舍入及容量见 [核算与容量参考](docs/accounting-reference.zh-CN.md)。本插件的管理台账不能代替供应商结算单或正式会计凭证。
 
-在「时区与导入」选择 UTF-8 CSV 或粘贴内容，表头及枚举示例见 [付款模板](examples/payments.csv)。须先建立模板中使用的费用池，日期为 `YYYY-MM-DD`，金额不要带货币符号或千位分隔符
+## 使用前应知道
 
-付款 ID 和非空的「供应商＋凭证编号」不能重复。任何一行无效时整批不写入，重复导入同一付款不会累计。CSV 退款行填写 `originalPaymentId`，其他类别留空
+- 只统计宿主仍保留的原生请求，不包含无请求明细的外部聚合贡献。宿主默认保留31天，季度和年度查询应提前调整保留设置，已清理数据无法恢复。
+- 单次查询1～366天、最多50,000条；页面预览100条，Excel 导出完整查询范围。
+- 下载文件保留10分钟；取得的链接有效两分钟且只能使用一次。插件重启会清除临时文件，重新生成即可。
+- 在线月结最多24个版本，且受压缩后256 KiB、解压后8 MiB整体台账上限约束；达到容量时先下载并保存旧报表，再移除旧归档。
+- 已完成真实插件进程、模拟宿主协议和浏览器沙箱验收；未安装到你的实际网关，尚未在 Excel/WPS 应用中验收。详见 [验证记录](docs/verification.md)。
 
-## 月结与容量
+## 从源码构建
 
-月结保存请求、汇总、分摊和当时配置。后续改价、调岗或编辑付款不会改写已有版本；同一期间再次保存必须填写调整说明。先将需长期保留的 Excel 另行保存，再通过确认弹窗移除不再需要的在线归档
-
-- 单次范围1～366天，最多50,000条原生请求，超出时明确拒绝，不返回部分报表
-- 配置上限：1,000条归属、100个费用池、2,000笔付款、1,000条预算，配置 JSON 最多512 KiB
-- 最多24个在线月结版本，解压后整体台账最多8 MiB，压缩后的宿主记录最多256 KiB，以先达到的限制为准
-- 最多4个短期报表缓存，各保留15分钟；待下载 Excel 最多4个，各不超过16 MiB
-
-压缩率取决于真实数据。容量不足时缩小月结范围，导出并移除旧归档后继续保存。删除旧归档不删除付款和归属配置
-
-宿主默认保留31天请求明细及统计，季度、年度查询需在宿主侧提前调整历史保留。已清理的数据不能补造。报表只扫描原生明细，不包含没有请求明细的外部聚合贡献，并在页面和文件中提示范围
-
-## 源码与构建
-
-```text
-backend/          Rust 插件、领域测试及清单检查示例
-frontend/         Vue 管理页面、组件与宿主桥
-scripts/          打包与隔离协议验证
-examples/         付款模板
-docs/             实施计划、接口与验证记录
-plugin.json       作者清单
-dist/             生成的安装包和校验文件
-```
-
-Node.js 24、pnpm 11.25.0、Rust 1.99.1。Windows 使用已运行的 Docker Desktop 构建 Linux 包，脚本不会自动启动 Docker
-
-```powershell
-pwsh -File scripts/package.ps1
-```
-
-Linux x86_64 已有工具链时：
+工具链：Node.js 24、pnpm 11.25.0、Rust 1.99.1（含 Rustfmt、Clippy）。SDK 与官方打包工具固定提交，依赖版本由锁文件保存。
 
 ```bash
+git clone https://github.com/BELOFR/codex-proxy-enterprise-ledger.git
+cd codex-proxy-enterprise-ledger
 pnpm --dir frontend install --frozen-lockfile
 pnpm --dir frontend lint
 pnpm --dir frontend build
 bash scripts/package-linux.sh
 ```
 
-工具链需安装 Rustfmt 与 Clippy，依赖下载需要网络。官方打包工具安装至工程 `.tools/linux-cli/`，不发布或安装插件到任何网关。安装包输出为 tar.gz 和 SHA-256，源码 ZIP 用于开发，不可作为插件包上传
+以上构建命令在 Linux x64 下运行。Windows 已安装并运行 Docker Desktop 时，执行 `pwsh -File scripts/package.ps1`；脚本不会替你启动 Docker。生成文件位于 `dist/`。
 
-开源仓库：[BELOFR/codex-proxy-enterprise-ledger](https://github.com/BELOFR/codex-proxy-enterprise-ledger)。安装包通过 GitHub Releases 分发，源码包不可作为插件安装包上传
+| 目录 | 内容 |
+| --- | --- |
+| `backend/` | Rust 插件、精确金额计算、XLSX 与领域测试 |
+| `frontend/` | Vue 管理页面、语言切换、图标与主题 |
+| `docs/` | 安装、使用、核算、验证及截图 |
+| `examples/` | CSV 付款模板 |
+| `scripts/` | 构建、打包、完整性与协议检查 |
 
-## 许可证
+## 参与和许可
 
-Apache-2.0，第三方依赖说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+欢迎通过 [Issues](https://github.com/BELOFR/codex-proxy-enterprise-ledger/issues) 提交问题或需求，说明宿主版本、插件版本和复现步骤；提交日志或图片前请隐藏 Key、令牌和公司财务数据。
+
+由 **BELOFR** 维护，采用 [Apache-2.0](LICENSE) 许可证。基于 [Codex Proxy RS](https://github.com/zyycn/codex-proxy-rs) 公开 SDK 与 [Codex Proxy UI](https://github.com/zyycn/codex-proxy-ui) 构建，第三方许可见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
